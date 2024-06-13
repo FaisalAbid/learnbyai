@@ -1,88 +1,159 @@
 <script lang="ts">
-  import { getContext } from "svelte"
-  import type { Writable } from "svelte/store"
+  import { writable } from "svelte/store"
 
-  let adminSection: Writable<string> = getContext("adminSection")
-  adminSection.set("home")
+  let currentTab = writable("seoArticle") // Initializes the default active tab
+  let topic = writable("")
+  let seoArticle = writable("")
+  let seoExplainer = writable("")
+  let writingSamples = writable("")
+  let generationFrequency = writable("1 day")
+
+  // Function to generate SEO Article
+  function generateSEOArticle() {
+    seoArticle.set(`Generated SEO article for the topic: ${$topic}`)
+    seoExplainer.set(
+      `This article is optimized by including relevant keywords, maintaining proper keyword density, using meta tags, and ensuring readability and engagement.`,
+    )
+  }
+
+  // Function to switch tabs
+  function switchTab(tab) {
+    currentTab.set(tab)
+    // Optionally reset outputs when switching tabs
+    seoArticle.set("")
+    seoExplainer.set("")
+  }
 </script>
 
 <svelte:head>
-  <title>Account</title>
+  <title>Content Generator</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-1">Dashboard</h1>
-<div class="alert alert-error max-w-lg mt-2">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="stroke-current shrink-0 h-6 w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    ><path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-    /></svg
-  >
-  <div>
-    <div class="font-bold">Demo Content</div>
-    <div class="my-2">
-      This page is just a placeholder. Replace this page with your app's content
-      and functionality.
-    </div>
-    <div class="my-2">
-      The <a href="/account/billing" class="link">billing</a> and
-      <a href="/account/settings" class="link">settings</a> pages are functional
-      demos.
+<div>
+  <!-- Tab Buttons -->
+  <div class=" bg-gray-100 p-4">
+    <button
+      class:active={$currentTab === "seoArticle"}
+      on:click={() => switchTab("seoArticle")}
+      class="mr-2 py-2 px-4 font-semibold rounded-lg"
+    >
+      SEO Article
+    </button>
+    <button
+      class:active={$currentTab === "customInput"}
+      on:click={() => switchTab("customInput")}
+      class="mr-2 py-2 px-4 font-semibold rounded-lg"
+    >
+      Custom Input
+    </button>
+    <button
+      class:active={$currentTab === "scheduledGeneration"}
+      on:click={() => switchTab("scheduledGeneration")}
+      class="py-2 px-4 font-semibold rounded-lg"
+    >
+      Scheduled Generation
+    </button>
+    <div class="">
+      {#if $currentTab === "seoArticle"}
+        <div>
+          <label
+            for="topic"
+            class="block mb-2 text-lg font-medium text-gray-900">Topic:</label
+          >
+          <input
+            type="text"
+            class="mb-4 p-2 w-full border rounded"
+            bind:value={$topic}
+            placeholder="Enter topic for SEO article"
+          />
+          <button
+            class="mb-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700"
+            on:click={generateSEOArticle}>Generate</button
+          >
+          {#if $seoArticle}
+            <div class="output">
+              <h2 class="font-bold">Generated Article:</h2>
+              <p>{$seoArticle}</p>
+              <h2 class="font-bold">Why it's SEO Optimized:</h2>
+              <p>{$seoExplainer}</p>
+            </div>
+          {/if}
+        </div>
+      {/if}
+
+      {#if $currentTab === "customInput"}
+        <div>
+          <label
+            for="writingSamples"
+            class="block mb-2 text-lg font-medium text-gray-900"
+            >Your Writing Samples:</label
+          >
+          <textarea
+            class="mb-4 p-2 w-full border rounded"
+            rows="4"
+            bind:value={$writingSamples}
+            placeholder="Enter your writing samples..."
+          ></textarea>
+          <button
+            class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700"
+            on:click={() => {}}>Use Samples</button
+          >
+        </div>
+      {/if}
+
+      {#if $currentTab === "scheduledGeneration"}
+        <div>
+          <label
+            for="writingSamples"
+            class="block mb-2 text-lg font-medium text-gray-900"
+            >Your Writing Samples:</label
+          >
+          <textarea
+            class="mb-4 p-2 w-full border rounded"
+            rows="4"
+            bind:value={$writingSamples}
+            placeholder="Enter your writing samples..."
+          ></textarea>
+          <label
+            for="topic"
+            class="block mb-2 text-lg font-medium text-gray-900">Topic:</label
+          >
+          <input
+            type="text"
+            class="mb-4 p-2 w-full border rounded"
+            bind:value={$topic}
+            placeholder="Enter topic for periodic content"
+          />
+          <label
+            for="frequency"
+            class="block mb-2 text-lg font-medium text-gray-900"
+            >Generation Frequency:</label
+          >
+          <select
+            class="mb-4 p-2 w-full border rounded"
+            bind:value={$generationFrequency}
+          >
+            <option value="1 day">Every Day</option>
+            <option value="2 days">Every 2 Days</option>
+            <option value="3 days">Every 3 Days</option>
+            <option value="7 days">Every Week</option>
+          </select>
+          <button
+            class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700"
+            on:click={() => {}}>Schedule</button
+          >
+        </div>
+      {/if}
     </div>
   </div>
+
+  <!-- Tab Contents -->
 </div>
 
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Users</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">Downloads</div>
-      <div class="stat-value">31K</div>
-      <div class="stat-desc">↗︎ 546 (2%)</div>
-    </div>
-
-    <div class="stat place-items-center">
-      <div class="stat-title">Users</div>
-      <div class="stat-value text-secondary">4,200</div>
-      <div class="stat-desc">↗︎ 40 (2%)</div>
-    </div>
-  </div>
-</div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Accounts</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">New Registers</div>
-      <div class="stat-value">1,200</div>
-      <div class="stat-desc">↘︎ 90 (14%)</div>
-    </div>
-
-    <div class="stat place-items-center">
-      <div class="stat-title">Churned Accounts</div>
-      <div class="stat-value">42</div>
-      <div class="stat-desc">↘︎ 6 (12%)</div>
-    </div>
-  </div>
-</div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Revenue</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title text-success">Revenue</div>
-      <div class="stat-value text-success">$4200</div>
-      <div class="stat-desc">↗︎ $180 (4%)</div>
-    </div>
-
-    <div class="stat place-items-center">
-      <div class="stat-title">New Subscribers</div>
-      <div class="stat-value">16</div>
-      <div class="stat-desc">↘︎ 1 (%7)</div>
-    </div>
-  </div>
-</div>
+<style>
+  button:active,
+  button.active {
+    background-color: #0056b3; /* Darker blue when active or clicked */
+    color: white;
+  }
+</style>
