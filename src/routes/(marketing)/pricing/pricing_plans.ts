@@ -6,7 +6,7 @@ export const pricingPlans = [
     name: "Pro",
     description:
       "Generate 35 blog posts a month. ",
-    price: "$100",
+    price: "$50",
     priceIntervalName: "per month",
     stripe_price_id: "price_1PR13lGtXYeoRWVlPdiYpmq3",
     stripe_product_id: "prod_QHaERTNN2hQWBu",
