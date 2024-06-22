@@ -1,8 +1,16 @@
 <script>
   import { onMount } from "svelte"
 
-  let isInputAccordionOpen = false
-  let isOutputAccordionOpen = [false, false, false, false, false]
+  // Component props
+  export let articlesLeft = 10
+  export let isFreeUser = false
+  export let subscribeUrl = "/subscribe"
+  export let onArticlesUpdate = (newCount) => {}
+
+  let isTopicInfoAccordionOpen = false
+  let isWritingSamplesAccordionOpen = false
+  let isOutputAccordionOpen = [false, false, false, false, false, false]
+  let topicInfo = ""
   let writingSamples = ""
   let topic = ""
   let generatedTitle = ""
@@ -10,39 +18,92 @@
   let generatedBlogPost = ""
   let generatedSEOAnalysis = ""
   let generatedSEOScore = ""
+  let generatedImageHeaders = []
+  let selectedImageIndex = 0
   let isLoading = false
   let showResults = false
+  let error = ""
 
-  function toggleInputAccordion() {
-    isInputAccordionOpen = !isInputAccordionOpen
+  $: canGenerate = articlesLeft > 0
+
+  function toggleTopicInfoAccordion() {
+    isTopicInfoAccordionOpen = !isTopicInfoAccordionOpen
+  }
+
+  function toggleWritingSamplesAccordion() {
+    isWritingSamplesAccordionOpen = !isWritingSamplesAccordionOpen
   }
 
   function toggleOutputAccordion(index) {
     isOutputAccordionOpen[index] = !isOutputAccordionOpen[index]
   }
 
+  function selectImage(index) {
+    selectedImageIndex = index
+  }
+
   async function generateContent() {
+    if (!canGenerate) return
+
     isLoading = true
     showResults = false
+    error = ""
 
-    // Simulating API call with a 5-second delay
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    try {
+      const response = await fetch(
+        "https://coeus-kujlb74jna-uc.a.run.app/signalpress",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            topic,
+            topicInfo,
+            writingSamples,
+            articlesLeft,
+            isFreeUser,
+          }),
+        },
+      )
 
-    // This is a placeholder function. In a real application, you would send the
-    // writing samples (if provided) and topic to a backend API for processing.
-    generatedTitle = `AI Generated Title for "${topic}"`
-    generatedSEOExcerpt = `This is an AI-generated SEO excerpt for the topic "${topic}". It provides a brief summary of the blog post.`
-    generatedBlogPost = `This is an AI-generated blog post about "${topic}"${writingSamples ? " based on the provided writing samples" : ""}. It would contain multiple paragraphs of relevant content.`
-    generatedSEOAnalysis = `
-      1. Keyword Usage: The primary keyword "${topic}" is used effectively in the title and throughout the content.
-      2. Content Length: The blog post is approximately X words long, which is good for SEO.
-      3. Readability: The content is easy to read and understand, with an appropriate mix of short and long sentences.
-      4. Internal/External Links: Consider adding relevant internal and external links to improve SEO.
-      5. Meta Description: The SEO excerpt serves as a good meta description, including the primary keyword.`
-    generatedSEOScore = Math.floor(Math.random() * 41) + 60 // Random score between 60 and 100
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-    isLoading = false
-    showResults = true
+      const data = await response.json()
+
+      // Parse the response
+      generatedTitle = data.title || ""
+      generatedSEOExcerpt = data.seoExcerpt || ""
+      generatedBlogPost = data.blogPost || ""
+      generatedSEOAnalysis = data.seoAnalysis || ""
+      generatedSEOScore = data.seoScore || 0
+      generatedImageHeaders = data.imageHeaders || []
+      selectedImageIndex = 0
+
+      // Update articles left
+      articlesLeft = data.articlesLeft
+      onArticlesUpdate(articlesLeft) // Notify parent component
+
+      showResults = true
+    } catch (e) {
+      console.error("Error generating content:", e)
+      error = "An error occurred while generating content. Please try again."
+    } finally {
+      isLoading = false
+    }
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Text copied to clipboard")
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err)
+      })
   }
 
   onMount(() => {
@@ -58,14 +119,14 @@
     <div class="p-6">
       <div class="mb-6">
         <button
-          on:click={toggleInputAccordion}
+          on:click={toggleTopicInfoAccordion}
           class="flex justify-between items-center w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200"
         >
           <span class="text-lg font-medium"
-            >Optional: Paste Writing Samples</span
+            >Information about the topic (optional)</span
           >
           <svg
-            class="w-5 h-5 transform transition-transform duration-200 {isInputAccordionOpen
+            class="w-5 h-5 transform transition-transform duration-200 {isTopicInfoAccordionOpen
               ? 'rotate-180'
               : ''}"
             fill="none"
@@ -81,12 +142,48 @@
             ></path>
           </svg>
         </button>
-        {#if isInputAccordionOpen}
+        {#if isTopicInfoAccordionOpen}
+          <div class="mt-4 transition-all duration-200 ease-in-out">
+            <textarea
+              bind:value={topicInfo}
+              class="w-full h-32 p-2 border border-gray-300 rounded-md"
+              placeholder="Enter any additional information or context about the topic..."
+            ></textarea>
+          </div>
+        {/if}
+      </div>
+
+      <div class="mb-6">
+        <button
+          on:click={toggleWritingSamplesAccordion}
+          class="flex justify-between items-center w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200"
+        >
+          <span class="text-lg font-medium"
+            >Writing Samples / Tone (optional)</span
+          >
+          <svg
+            class="w-5 h-5 transform transition-transform duration-200 {isWritingSamplesAccordionOpen
+              ? 'rotate-180'
+              : ''}"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
+        {#if isWritingSamplesAccordionOpen}
           <div class="mt-4 transition-all duration-200 ease-in-out">
             <textarea
               bind:value={writingSamples}
               class="w-full h-64 p-2 border border-gray-300 rounded-md"
-              placeholder="Paste your writing samples here (optional)..."
+              placeholder="Paste your writing samples here..."
             ></textarea>
           </div>
         {/if}
@@ -105,17 +202,30 @@
         />
       </div>
 
-      <button
-        on:click={generateContent}
-        class="mt-6 w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        disabled={isLoading}
-      >
-        {#if isLoading}
-          Generating...
-        {:else}
-          Generate Content
-        {/if}
-      </button>
+      {#if canGenerate}
+        <button
+          on:click={generateContent}
+          class="mt-6 w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={isLoading}
+        >
+          {#if isLoading}
+            Generating...
+          {:else}
+            Generate Content ({articlesLeft} left)
+          {/if}
+        </button>
+      {:else if isFreeUser}
+        <a
+          href={subscribeUrl}
+          class="mt-6 w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Subscribe to Unlock More Articles
+        </a>
+      {/if}
+
+      {#if error}
+        <p class="mt-2 text-red-600">{error}</p>
+      {/if}
 
       {#if isLoading}
         <div class="mt-6 flex justify-center">
@@ -131,55 +241,104 @@
             Generated Content
           </h3>
 
-          {#each ["Title", "SEO Excerpt", "Blog Post", "SEO Analysis", "The Signal Press SEO Score"] as section, index}
+          {#each ["Image Headers", "Title", "SEO Excerpt", "Blog Post"] as section, index}
             <div class="mb-4">
               <button
                 on:click={() => toggleOutputAccordion(index)}
                 class="flex justify-between items-center w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200"
               >
                 <span class="text-md font-medium">{section}</span>
-                <svg
-                  class="w-5 h-5 transform transition-transform duration-200 {isOutputAccordionOpen[
-                    index
-                  ]
-                    ? 'rotate-180'
-                    : ''}"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
+                <div class="flex items-center">
+                  <button
+                    on:click|stopPropagation={() =>
+                      copyToClipboard(
+                        index === 0
+                          ? generatedImageHeaders[selectedImageIndex]
+                          : index === 1
+                            ? generatedTitle
+                            : index === 2
+                              ? generatedSEOExcerpt
+                              : index === 3
+                                ? generatedBlogPost
+                                : index === 4
+                                  ? generatedSEOAnalysis
+                                  : `SEO Score: ${generatedSEOScore}`,
+                      )}
+                    class="mr-2 p-1 hover:bg-gray-200 rounded-full"
+                    title="Copy to clipboard"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </button>
+                  <svg
+                    class="w-5 h-5 transform transition-transform duration-200 {isOutputAccordionOpen[
+                      index
+                    ]
+                      ? 'rotate-180'
+                      : ''}"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
               </button>
               {#if isOutputAccordionOpen[index]}
                 <div class="mt-2 p-4 bg-gray-50 rounded-md">
-                  {#if index === 4}
-                    <div class="flex items-center">
-                      <div
-                        class="w-16 h-16 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center text-white text-2xl font-bold"
-                      >
-                        {generatedSEOScore}
-                      </div>
-                      <p class="ml-4">
-                        This is The Signal Press SEO Score for your generated
-                        content.
-                      </p>
+                  {#if index === 0}
+                    <div class="grid grid-cols-2 gap-4">
+                      {#each generatedImageHeaders as imageHeader, imgIndex}
+                        <div class="relative">
+                          <img
+                            src={imageHeader}
+                            alt={`Generated header image ${imgIndex + 1}`}
+                            class="w-full h-auto rounded-md {selectedImageIndex ===
+                            imgIndex
+                              ? 'border-4 border-indigo-500'
+                              : ''}"
+                            on:click={() => selectImage(imgIndex)}
+                          />
+                          <div
+                            class="absolute top-2 left-2 bg-white rounded-full px-2 py-1 text-sm font-bold"
+                          >
+                            {imgIndex + 1}
+                          </div>
+                        </div>
+                      {/each}
+                    </div>
+                    <p class="mt-2 text-sm text-gray-600">
+                      Click on an image to select it as the header image.
+                    </p>
+                  {:else if index === 3}
+                    <div class="prose prose-xl">
+                      {@html generatedBlogPost}
                     </div>
                   {:else}
                     <p>
-                      {index === 0
+                      {index === 1
                         ? generatedTitle
-                        : index === 1
+                        : index === 2
                           ? generatedSEOExcerpt
-                          : index === 2
-                            ? generatedBlogPost
-                            : generatedSEOAnalysis}
+                          : generatedSEOAnalysis}
                     </p>
                   {/if}
                 </div>

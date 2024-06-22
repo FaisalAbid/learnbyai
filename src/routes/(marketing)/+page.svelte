@@ -212,6 +212,7 @@
     </div>
   </div>
 </div>
+<!-- 
 <div class="min-h-[60vh]">
   <div class="pb-8 px-7">
     <div class="max-w-lg mx-auto text-center">
@@ -237,7 +238,7 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                
                 {@html feature.svgContent}
               </svg>
             </div>
@@ -265,3 +266,4 @@
     </div>
   </div>
 </div>
+-->
