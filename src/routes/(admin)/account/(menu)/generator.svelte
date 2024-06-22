@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
 
   // Component props
-  export let articlesLeft = 10
+  export let articlesLeft = 35
   export let isFreeUser = false
   export let subscribeUrl = "/subscribe"
   export let onArticlesUpdate = (newCount) => {}
