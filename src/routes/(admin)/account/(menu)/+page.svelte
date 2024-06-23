@@ -2,4 +2,4 @@
   import Generator from "./generator.svelte"
 </script>
 
-<Generator />
+<Generator onArticlesUpdate={(data) => console.log(data)} />

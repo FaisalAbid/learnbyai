@@ -5,7 +5,7 @@
   export let articlesLeft = 35
   export let isFreeUser = false
   export let subscribeUrl = "/subscribe"
-  export let onArticlesUpdate = (newCount) => {}
+  export let onArticlesUpdate = (article) => {}
 
   let isTopicInfoAccordionOpen = false
   let isWritingSamplesAccordionOpen = false
@@ -84,7 +84,7 @@
 
       // Update articles left
       articlesLeft = data.articlesLeft
-      onArticlesUpdate(articlesLeft) // Notify parent component
+      onArticlesUpdate(data) // Notify parent component
 
       showResults = true
     } catch (e) {

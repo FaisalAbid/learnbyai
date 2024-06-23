@@ -100,7 +100,22 @@ export interface Database {
             referencedColumns: ["id"]
           },
         ]
-      }
+      },
+      articles: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          body: string
+          published_at: Date | null
+        }
+        Insert: {
+          id: string
+          user_id: string
+          title: string
+          body: string
+          published_at?: Date | null
+        }
     }
     Views: {
       [_ in never]: never
