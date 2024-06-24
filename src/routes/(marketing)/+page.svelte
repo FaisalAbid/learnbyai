@@ -99,7 +99,7 @@
   <div class="hero-content text-center py-12">
     <div class="max-w-2xl">
       <h1 class="text-5xl md:text-7xl font-bold mb-8 font-display text-primary">
-        Learn By Song
+        Learn With Song
       </h1>
       <p class="text-2xl md:text-3xl mb-8 text-[#FF6B6B]">
         <!-- Coral color for subheading -->
@@ -120,7 +120,7 @@
 <div class="py-16 bg-base-200">
   <div class="container mx-auto px-4">
     <h2 class="text-4xl font-bold text-center mb-12 font-display text-primary">
-      Why Learn By Song?
+      Why Learn With Song?
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each features as feature}
@@ -211,8 +211,8 @@
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body">
           <p class="italic">
-            "Learn By Song has made studying history so much more enjoyable. I'm
-            retaining information like never before!"
+            "Learn With Song has made studying history so much more enjoyable.
+            I'm retaining information like never before!"
           </p>
           <p class="font-bold mt-4 text-[#FF6B6B]">- Sarah, 15</p>
           <!-- Coral color for names -->
