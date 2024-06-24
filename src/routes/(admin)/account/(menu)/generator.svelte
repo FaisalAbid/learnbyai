@@ -15,7 +15,22 @@
   let currentStatus = ""
   let userId = user || "user_" + Math.random().toString(36).substr(2, 9) // Generate a random user ID
 
-  const songTypes = ["Rap", "Reggae", "Pop", "Rock", "Country", "Classical"]
+  const songTypes = [
+    "Rap",
+    "Reggae",
+    "Pop",
+    "Rock",
+    "Country",
+    "Classical",
+    "Jazz",
+    "Folk",
+    "Hip Hop",
+    "Electronic",
+    "Latin",
+    "World",
+    "80s Synth",
+    "Heavy Metal",
+  ]
 
   onMount(async () => {
     await fetchUserSongs()
