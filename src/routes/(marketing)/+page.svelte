@@ -111,7 +111,7 @@
         Experience a new way of learning with AI-generated educational songs
         that make knowledge stick.
       </p>
-      <a href="/try-it-out" class="btn btn-primary btn-lg text-white"
+      <a href="/login" class="btn btn-primary btn-lg text-white"
         >Start Learning Today</a
       >
     </div>
@@ -195,7 +195,7 @@
       educational songs. Invest in knowledge that lasts a lifetime.
     </p>
     <a
-      href="/pricing"
+      href="/login"
       class="btn btn-lg bg-[#FF6B6B] hover:bg-[#FF8C8C] border-none text-white"
       >Get Started Now</a
     >
@@ -254,7 +254,7 @@
       Discover how we can enhance your learning journey.
     </p>
     <a
-      href="/free-demo"
+      href="/login"
       class="btn btn-lg bg-[#FF6B6B] hover:bg-[#FF8C8C] border-none text-white"
       >Start Learning Today</a
     >
