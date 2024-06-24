@@ -59,7 +59,9 @@
       <!--<a class="link link-hover my-1" href="/blog">Blog</a> -->
     </nav>
     <aside>
-      <span class="footer-title opacity-80">2024 Learn With Song</span>
+      <span class="footer-title opacity-80"
+        >2024 Learn With Song<br /> A Labs project of InterstellarLabs.dev</span
+      >
     </aside>
   </footer>
 </div>
