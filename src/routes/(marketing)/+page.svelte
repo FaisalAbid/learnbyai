@@ -59,34 +59,26 @@
   ]
   const sampleSongs = [
     {
-      title: "The Multiplication Mambo",
-      topic: "Math: Multiplication Tables",
-      audio: "/api/placeholder-audio/multiplication-mambo.mp3",
+      title: "Prehistoric Sythn",
+      topic: "Learn the prehistoric timelime",
+      audio:
+        "https://storage.googleapis.com/lws_storage/demo/prehistoric%20timeline.mp3",
     },
     {
-      title: "Planet Parade",
-      topic: "Science: Solar System",
-      audio: "/api/placeholder-audio/planet-parade.mp3",
+      title: "Mathematical Constant E",
+      topic: "Learning the constant E",
+      audio: "https://storage.googleapis.com/lws_storage/demo/e.mp3",
     },
     {
-      title: "The Constitution Groove",
-      topic: "History: U.S. Constitution",
-      audio: "/api/placeholder-audio/constitution-groove.mp3",
+      title: "Pythagorean Mode",
+      topic: "Learning the Pythagorean Theorem",
+      audio: "https://storage.googleapis.com/lws_storage/demo/pytha.mp3",
     },
     {
-      title: "Cell-ebration",
-      topic: "Biology: Parts of a Cell",
-      audio: "/api/placeholder-audio/cell-ebration.mp3",
-    },
-    {
-      title: "Verb Vibe",
-      topic: "Grammar: Types of Verbs",
-      audio: "/api/placeholder-audio/verb-vibe.mp3",
-    },
-    {
-      title: "Periodic Table Tango",
-      topic: "Chemistry: Elements",
-      audio: "/api/placeholder-audio/periodic-table-tango.mp3",
+      title: "French Revolution Jam",
+      topic: "Learning about the French Revolution",
+      audio:
+        "https://storage.googleapis.com/lws_storage/demo/436f64ee-b795-4173-9667-34850c4a041b.mp3",
     },
   ]
 </script>

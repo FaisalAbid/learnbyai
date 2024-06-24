@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
+  import Snake from "./snake.svelte"
 
   const API_ENDPOINT = "https://coeus-kujlb74jna-uc.a.run.app"
   export let user
@@ -85,10 +86,11 @@
   }
 
   async function checkAllSongStatuses() {
-    for (let taskId of taskIds) {
-      await checkSongStatus(taskId)
+    for (let task of taskIds) {
+      console.log("Checking status of task", task.task_id)
+      await checkSongStatus(task.task_id)
     }
-    isGenerating = taskIds.length > 0
+    //isGenerating = taskIds.length > 0
   }
 
   async function checkSongStatus(taskId) {
