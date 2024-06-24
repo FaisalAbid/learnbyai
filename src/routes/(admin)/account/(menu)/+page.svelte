@@ -1,5 +1,8 @@
 <script>
   import Generator from "./generator.svelte"
+  export let data
+  let isActiveCustomer = data.isActiveCustomer
+  let userId = data.userId
 </script>
 
-<Generator onArticlesUpdate={(data) => console.log(data)} />
+<Generator user={userId} {isActiveCustomer} />

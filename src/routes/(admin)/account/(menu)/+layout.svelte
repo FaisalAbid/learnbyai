@@ -23,8 +23,7 @@
   <div class="drawer-content">
     <div class="navbar bg-base-100 lg:hidden">
       <div class="flex-1">
-        <a class="btn btn-ghost normal-case text-xl" href="/"
-          >The Signal Press</a
+        <a class="btn btn-ghost normal-case text-xl" href="/">Learn With Song</a
         >
       </div>
       <div class="flex-none">
@@ -61,7 +60,7 @@
         <div
           class="normal-case menu-title text-xl font-bold text-primary flex flex-row"
         >
-          <a href="/" class="grow">The Signal Press</a>
+          <a href="/" class="grow">Learn With Song</a>
           <label for="admin-drawer" class="lg:hidden ml-3"> &#x2715; </label>
         </div>
       </li>

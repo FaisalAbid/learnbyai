@@ -4,7 +4,7 @@
 
 <div class="navbar bg-base-100 container mx-auto">
   <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl" href="/">The Signal Press</a>
+    <a class="btn btn-ghost normal-case text-xl" href="/">Learn With Song</a>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1 hidden sm:flex font-bold text-lg">
@@ -59,7 +59,7 @@
       <!--<a class="link link-hover my-1" href="/blog">Blog</a> -->
     </nav>
     <aside>
-      <span class="footer-title opacity-80">2024 The Signal Press</span>
+      <span class="footer-title opacity-80">2024 Learn With Song</span>
     </aside>
   </footer>
 </div>

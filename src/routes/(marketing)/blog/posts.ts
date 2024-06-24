@@ -1,5 +1,5 @@
 export const blogInfo = {
-  name: "The Signal Press Blog",
+  name: "Learn With Song Blog",
   description: "A sample blog",
 }
 

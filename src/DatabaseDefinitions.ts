@@ -101,20 +101,20 @@ export interface Database {
           },
         ]
       },
-      articles: {
+      songs: {
         Row: {
           id: string
           user_id: string
-          title: string
-          body: string
-          published_at: Date | null
+          prompt: string
+          song_url: string
+          created_at: Date | null
         }
         Insert: {
           id: string
+          prompt: string
           user_id: string
-          title: string
-          body: string
-          published_at?: Date | null
+          song_url: string
+          created_at?: Date | null
         }
     }
     Views: {

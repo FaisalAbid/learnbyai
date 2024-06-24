@@ -2,25 +2,34 @@
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'display': ['Quicksand', 'Arial', 'sans-serif'],
+        'body': ['Open Sans', 'Arial', 'sans-serif'],
+      },
+    },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: [
       {
-        saasstartertheme: {
-          primary: "#180042",
-          "primary-content": "#fefbf6",
-          secondary: "#c7b9f8",
-          neutral: "#180042",
-          "neutral-content": "#fefbf6",
-          accent: "#db2777",
-          "accent-content": "#180042",
-          "base-content": "#180042",
-          "base-100": "#fefbf6",
-          "base-200": "#faedd6",
-          success: "#37d399",
-          error: "#f77272",
+        learnbysongtheme: {
+          primary: "#4A90E2",          // Soft blue
+          "primary-content": "#FFFFFF",
+          secondary: "#50C878",        // Soft green
+          "secondary-content": "#FFFFFF",
+          accent: "#FFB347",           // Soft orange
+          "accent-content": "#333333",
+          neutral: "#6B7280",          // Cool gray
+          "neutral-content": "#FFFFFF",
+          "base-100": "#FFFFFF",       // White
+          "base-200": "#F3F4F6",       // Very light gray
+          "base-300": "#E5E7EB",       // Light gray
+          "base-content": "#333333",
+          info: "#3ABFF8",
+          success: "#36D399",
+          warning: "#FBBD23",
+          error: "#F87272",
         },
       },
     ],
