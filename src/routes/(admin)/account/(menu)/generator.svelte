@@ -30,6 +30,7 @@
     "World",
     "80s Synth",
     "Heavy Metal",
+    "Bollywood",
   ]
 
   onMount(async () => {
