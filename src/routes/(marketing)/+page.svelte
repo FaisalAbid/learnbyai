@@ -59,26 +59,32 @@
   ]
   const sampleSongs = [
     {
-      title: "Prehistoric Sythn",
-      topic: "Learn the prehistoric timelime",
+      title: "Jurassic Jams: A Prehistoric Timeline",
+      topic: "Learn the prehistoric timeline",
       audio:
         "https://storage.googleapis.com/lws_storage/demo/prehistoric%20timeline.mp3",
     },
     {
-      title: "Mathematical Constant E",
+      title: "Exponential Enigma: Unraveling the Constant E",
       topic: "Learning the constant E",
       audio: "https://storage.googleapis.com/lws_storage/demo/e.mp3",
     },
     {
-      title: "Pythagorean Mode",
+      title: "Pythagoras' Rap: The Hypotenuse Groove",
       topic: "Learning the Pythagorean Theorem",
       audio: "https://storage.googleapis.com/lws_storage/demo/pytha.mp3",
     },
     {
-      title: "French Revolution Jam",
+      title: "Vive la Révolution: The French Uprising Rhapsody",
       topic: "Learning about the French Revolution",
       audio:
         "https://storage.googleapis.com/lws_storage/demo/436f64ee-b795-4173-9667-34850c4a041b.mp3",
+    },
+    {
+      title: "Commander-in-Chief Chronicles: Remembering the Presidents",
+      topic: "American History",
+      audio:
+        "https://storage.googleapis.com/lws_storage/demo/dc117dc5-1650-41d0-b5db-d50c1cc0b5f7_1.mp3",
     },
   ]
 </script>

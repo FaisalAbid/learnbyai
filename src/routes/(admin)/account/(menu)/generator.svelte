@@ -28,7 +28,7 @@
       const response = await fetch(`${API_ENDPOINT}/user_songs/${userId}`)
       if (response.ok) {
         const data = await response.json()
-        generatedSongs = data.songs
+        generatedSongs = data.songs // Replace the array instead of appending
       }
     } catch (e) {
       console.error("Error fetching user songs:", e)
@@ -87,10 +87,14 @@
 
   async function checkAllSongStatuses() {
     for (let task of taskIds) {
-      console.log("Checking status of task", task.task_id)
-      await checkSongStatus(task.task_id)
+      if (task.task_id == undefined) {
+        console.log("Checking status of task", task.task_id)
+        await checkSongStatus(task)
+      } else {
+        await checkSongStatus(task.task_id)
+      }
     }
-    //isGenerating = taskIds.length > 0
+    isGenerating = taskIds.length > 0
   }
 
   async function checkSongStatus(taskId) {
